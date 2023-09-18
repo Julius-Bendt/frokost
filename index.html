@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Hvornår er det frokost?</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+        body {
+            background-color: #131b23;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #fff;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+        }
+
+        div {
+            width: 80%;
+            margin: 5em auto;
+            padding: 1em;
+            background-color: #192e43;
+            border-radius: 0.5em;
+            box-shadow: 2px 3px 7px 2px rgba(0, 0, 0, 0.02);
+        }
+
+
+
+        @media (max-width: 700px) {
+            div {
+                margin: 0 auto;
+                width: auto;
+            }
+        }
+
+        #text {
+            font-weight: bold;
+            font-size: 200%;
+        }
+
+        h1, h2 {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Der er frokost om</h1>
+        <span id="text">1 time og 52 minutter</span>
+    </div>
+</body>
+
+<script>
+    addEventListener("load", (event) => { 
+        setTime();
+    });
+
+    const interval = setInterval(function() {
+        setTime();
+    }, 5000);
+
+    function setTime()
+    {
+        const now = new Date();
+        const target = new Date();
+        target.setHours(12);
+        target.setMinutes(17);
+
+        if (now > target) {
+            target.setDate(target.getDate() + 1);
+        }
+
+        let diff = target - now;
+
+        const hh = Math.floor(diff / 1000 / 60 / 60);
+        diff -= hh * 1000 * 60 * 60;
+        const mm = Math.floor(diff / 1000 / 60);
+
+
+        let formatted = "";
+        if (hh > 0)
+            formatted = `${hh} ${hh > 1 ? 'timer' : 'time'}`;;
+
+        if (hh > 0 && mm > 0)
+            formatted += ` og `;
+
+        if (mm > 0)
+            formatted += `${mm} ${mm > 1 ? 'minutter' : 'minut'}`;
+
+        if (hh == 0 && mm < 5)
+            formatted += "!!!!"
+
+        const amountElement = document.getElementById("text");
+        amountElement.innerHTML = `<h1>${formatted}</h1>`
+    }
+</script>
+
+</html>
