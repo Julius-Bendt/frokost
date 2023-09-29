@@ -1,0 +1,24 @@
+---
+import TimeItem from "../components/TimeItem.astro"; 
+import MealItems from "../components/MealItems.astro";
+import SalaryItem from "../components/SalaryItem.astro";
+
+---
+
+<!doctype html>
+<html>
+  <head>
+    <title>Hvornår er det frokost?</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body class="bg-gray-900 text-slate-300">
+    <div class="w-4/5 mx-auto">
+      <TimeItem />
+      <SalaryItem />
+      <MealItems />
+    </div>
+  </body>
+</html>
