@@ -1,8 +1,10 @@
 ---
-import TimeItem from "../components/TimeItem.astro"; 
+import "../styles/global.css";
+
+// Components
+import TimeItem from "../components/TimeItem.astro";
 import MealItems from "../components/MealItems.astro";
 import SalaryItem from "../components/SalaryItem.astro";
-
 ---
 
 <!doctype html>
@@ -14,8 +16,8 @@ import SalaryItem from "../components/SalaryItem.astro";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
 
-  <body class="bg-gray-900 text-slate-300">
-    <div class="w-4/5 mx-auto">
+  <body class="bg-gray-900 text-slate-300 overflow-hidden">
+    <div class="w-4/5 h-screen m-auto">
       <TimeItem />
       <SalaryItem />
       <MealItems />

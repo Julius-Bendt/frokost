@@ -1,20 +1,22 @@
-<div class="w-3/4 mx-auto my-8 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 text-center">
-    <div class="">
-        <h1 class="text-5xl">Der er frokost om</h1>
-        <span id="text" class="font-bold text-5xl">x time og xx minutter</span>
-    </div>
+<div
+  class="w-3/4 mx-auto my-8 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 text-center"
+>
+  <div class="">
+    <h1 class="text-7xl">Der er frokost om</h1>
+    <span id="text" class="font-bold text-7xl">x time og xx minutter</span>
+  </div>
 </div>
 
 <script>
-    import { getTimeToFrokost } from "../scripts/SetTime.js";
+  import { getTimeToFrokost } from "../scripts/SetTime.js";
 
-    const amountElement = document.getElementById("text");
+  const amountElement = document.getElementById("text");
 
-    addEventListener("load", (event) => {
-        amountElement.innerHTML = getTimeToFrokost(amountElement);
-    });
+  addEventListener("load", (event) => {
+    amountElement.innerHTML = getTimeToFrokost(amountElement);
+  });
 
-    const interval = setInterval(function () {
-        amountElement.innerHTML = getTimeToFrokost(amountElement);
-    }, 5000);
+  const interval = setInterval(function () {
+    amountElement.innerHTML = getTimeToFrokost(amountElement);
+  }, 5000);
 </script>

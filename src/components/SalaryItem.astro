@@ -1,39 +1,32 @@
-<h1 id="salary" class="text-2xl text-center">Der er løn om xx dage </h1>
+<h1 id="salary" class="text-2xl text-center">Der er løn om xx dage</h1>
 
 <script>
-    import { getDaysToSalary } from "../scripts/Weekdays.js";
+  import { getDaysToSalary } from "../scripts/Weekdays.js";
 
+  const salary = document.getElementById("salary");
+  salary.innerHTML = format();
 
-const salary = document.getElementById("salary");
-salary.innerHTML = format();
+  function format() {
+    const diff = getDaysToSalary();
 
-function format()
-{
-    const lastWeekday = getDaysToSalary();
-    const date = new Date().getDate();
-    const diff = lastWeekday - date;
-    
-    if(diff < 0)
-    {
-        return "";
+    console.log(`There are ${diff} days until the last weekday of the month.`);
+
+    if (diff < 0) {
+      return "";
     }
 
-    if(diff == 0)
-    {
-        return "Du får løn i <span class='font-bold'>dag!</span>";
+    if (diff == 0) {
+      return "Du får løn i <span class='font-bold'>dag!</span>";
     }
 
-    if(diff == 1)
-    {
-        return "Du får løn i <span class='font-bold'>morgen</span>";
+    if (diff == 1) {
+      return "Du får løn i <span class='font-bold'>morgen</span>";
     }
 
-    if(diff == 2)
-    {
-        return "Du får løn i <span class='font-bold'>overmorgen</span>";
+    if (diff == 2) {
+      return "Du får løn i <span class='font-bold'>overmorgen</span>";
     }
 
     return `Du får løn om <span class="font-bold">${diff}</span> dage`;
-}
-
+  }
 </script>

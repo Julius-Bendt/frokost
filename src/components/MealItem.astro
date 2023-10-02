@@ -2,17 +2,24 @@
 const { food } = Astro.props;
 ---
 
-<div id={food.day} class="shadow bg-slate-800 rounded-lg my-2 hover:bg-slate-700 hover:shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105">
-    <div class="row justify-between items-center p-4">
-        <h2 class="font-bold text-lg">{food.day}</h2>
-        <div class="grid grid-cols-1 gap-3">
-            {
-                food.items.map((meal, i, row) => (
-                    <p><span class="font-bold">{meal.type}: </span>{meal.dish}</p>
-                ))
-            }
-        </div>
+<div
+  id={food.day}
+  class="shadow bg-slate-800 rounded-lg my-2 hover:bg-slate-700 hover:shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+>
+  <div class="row justify-between items-center p-4">
+    <h2 class="font-bold text-lg">{food.day}</h2>
+    <div class="grid grid-cols-1 gap-3">
+      {
+        food.items.map((meal, i, row) => (
+          <p>
+            <span class="font-bold">
+              {meal.type}
+              {meal.dish.length > 2 ? ": " : "!"} <!-- Fix for "god weekend" -->
+            </span>
+            {meal.dish.length > 2 ? meal.dish : ""} <!-- Fix for "god weekend" -->
+          </p>
+        ))
+      }
     </div>
-
+  </div>
 </div>
-

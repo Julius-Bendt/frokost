@@ -1,18 +1,20 @@
 export function getDaysToSalary() {
-  const now = new Date();
-  const lastDayOfMonth = now.getDate();
-  const lastDayOfWeek = now.getDay();
-  let lastWeekday = lastDayOfMonth;
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth();
 
-  if (lastDayOfWeek === 6) {
-    // If the last day is a Saturday, subtract 1 day to get Friday
-    lastWeekday--;
-  } else if (lastDayOfWeek === 0) {
-    // If the last day is a Sunday, subtract 2 days to get Friday
-    lastWeekday -= 2;
-  }
+  // Get the last day of the month
+  let lastDate = new Date(year, month + 1, 0);
 
-  return lastWeekday;
+  let weekendSubtract = 0;
+
+  // Sunday
+  if (lastDate.getDay() === 0) weekendSubtract = 2;
+
+  // Saturday
+  if (lastDate.getDay() === 6) weekendSubtract = 1;
+
+  return lastDate.getDate() - today.getDate() - weekendSubtract;
 }
 
 export const days = [
