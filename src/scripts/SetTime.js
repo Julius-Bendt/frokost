@@ -21,7 +21,11 @@ export function getTimeToFrokost() {
 
   if (mm > 0) formatted += `${mm} ${mm > 1 ? "minutter" : "minut"}`;
 
-  if (hh == 0 && mm < 5) formatted += "!!!!";
+  if (hh === 0 && mm === 0) {
+    formatted = "NU";
+  }
+
+  if (hh === 0 && mm < 5) formatted += "!!!!";
 
   return formatted;
 }
