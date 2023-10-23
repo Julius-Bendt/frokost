@@ -27,13 +27,24 @@ export function getTimeToFrokost() {
 
   if (hh === 0 && mm < 5) formatted += "!!!!";
 
-  return formatted;
+  return {
+    dd: dd,
+    hh: hh,
+    mm: mm,
+    formatted: formatted,
+  };
 }
 
 function getTargetDate(now) {
-  const target = new Date();
+  const target = new Date(now.getTime());
   target.setHours(11);
   target.setMinutes(17);
+
+  // If its friday, but it haven't been frokost yet, return target.
+  // Otherwise go to next if-statement, which will return today + 3 days(for next monday)
+  if (now.getDay() === 5 && target > now) {
+    return target;
+  }
 
   // 5 = friday, 6 = saturday, 0 = sunday. Adds the appropiate time for the next week day
   if ([0, 5, 6].includes(now.getDay())) {

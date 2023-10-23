@@ -3,22 +3,35 @@
 >
   <div>
     <h1 class="text-2xl md:text-5xl">Der er frokost om</h1>
-    <span id="text" class="font-bold text-3xl md:text-7xl"
-      >x time og xx minutter</span
-    >
+    <span id="text" class="font-bold text-3xl md:text-7xl">
+      <!-- x time og xx minutter -->
+    </span>
   </div>
 </div>
 
 <script>
   import { getTimeToFrokost } from "../scripts/SetTime.js";
+  import { textToSpeech } from "../scripts/TextToSpeech.js";
 
   const amountElement = document.getElementById("text");
+  let lastSpoken = "";
 
   addEventListener("load", (event) => {
-    amountElement.innerHTML = getTimeToFrokost(amountElement);
+    amountElement.innerHTML = getTimeToFrokost().formatted;
   });
 
   const interval = setInterval(function () {
-    amountElement.innerHTML = getTimeToFrokost(amountElement);
+    const frokostTime = getTimeToFrokost();
+    amountElement.innerHTML = frokostTime.formatted;
+
+    const speakAtMinutes = [15, 10, 5, 4, 3, 2, 1];
+    if (
+      frokostTime.formatted != lastSpoken &&
+      speakAtMinutes.includes(frokostTime.mm)
+    ) {
+      textToSpeech(`Lunch is in ${frokostTime.mm} minutes`);
+
+      lastSpoken = frokostTime.formatted;
+    }
   }, 5000);
 </script>

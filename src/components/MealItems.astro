@@ -9,7 +9,7 @@ const foodData = await response.json();
 <div
   class="grid grid-cols-1 grid-rows-5 md:grid-cols-5 md:grid-rows-1 gap-4 justify-around mt-2"
 >
-  {foodData.map((food) => <MealItem food={food} />)}
+  {foodData.map((food, i) => <MealItem food={food} cheeseDay={i % 2 == 0} />)}
 </div>
 
 <script>
