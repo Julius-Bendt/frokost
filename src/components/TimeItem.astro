@@ -27,7 +27,8 @@
     const speakAtMinutes = [15, 10, 5, 4, 3, 2, 1];
     if (
       frokostTime.formatted != lastSpoken &&
-      speakAtMinutes.includes(frokostTime.mm)
+      speakAtMinutes.includes(frokostTime.mm) &&
+      frokostTime.hh == 11
     ) {
       textToSpeech(`Lunch is in ${frokostTime.mm} minutes`);
 
