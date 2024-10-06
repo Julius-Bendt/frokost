@@ -1,12 +1,21 @@
 ---
-const { food, cheeseDay } = Astro.props;
+export interface Props {
+  food: any;
+  cheeseDay: boolean;
+  lang: "en" | "da";
+}
+
+
+import { formatDate } from "../scripts/DateFormat.js";
+
+const { food,cheeseDay, lang } = Astro.props;
 ---
 
 <div
   id={food.day}
   class="shadow bg-slate-800 rounded-lg hover:bg-slate-700 hover:shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 p-4"
 >
-  <h2 class="font-bold text-lg">{food.day}</h2>
+  <h2 class="font-bold text-lg">{formatDate(food.day, lang)}</h2>
   <div class="grid grid-cols-1 gap-3">
     {
       food.dishes
@@ -17,10 +26,24 @@ const { food, cheeseDay } = Astro.props;
             {meal.type}
             {meal.name.length > 2 ? ": " : "!"} <!-- Fix for "god weekend" -->
           </span>
-          {meal.name.length > 2 ? meal.name : ""} <!-- Fix for "god weekend" -->
+          {meal.name.length > 2 ? lang === "en" ? meal.nameEn	 ?? meal.name : meal.name : ""} <!-- Fix for "god weekend" -->
         </p>
       ))
     }
+    <div class="flex gap-2 justify-between">
+         {
+      food.dishes
+      .sort((a, b) => a.type > b.type ? 1 : -1)
+      .map((meal, i, row) => (
+        <img src={meal.picUrl} 
+
+            class="w-16 h-16 object-cover rounded-full shadow-md" />
+      ))
+    }
+    </div>
     <p>{cheeseDay ? "Oste dag" : "Kage dag"}</p>
+    
   </div>
 </div>
+
+<script></script>

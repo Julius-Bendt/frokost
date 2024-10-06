@@ -1,32 +1,59 @@
+---
+export interface Props {
+  lang: "en" | "da";
+}
+const { lang } = Astro.props;
+---
+
 <h1 id="salary" class="text-xl md:text-3xl text-center">
   <!-- Der er løn om xx dage -->
 </h1>
+
+<script is:inline define:vars={{ lang }}>
+  window.lang = lang;
+</script>
 
 <script>
   import { getDaysToSalary } from "../scripts/Weekdays.js";
 
   const salary = document.getElementById("salary");
-  salary.innerHTML = format();
+  salary.innerHTML = format(window.lang);
 
-  function format() {
+  function format(locale = "da") {
+    const translations = {
+      da: {
+        today: "Du får løn i <span class='font-bold'>dag!</span>",
+        tomorrow: "Du får løn i <span class='font-bold'>morgen</span>",
+        dayAfterTomorrow:
+          "Du får løn i <span class='font-bold'>overmorgen</span>",
+        inDays: (days) =>
+          `Du får løn om <span class="font-bold">${days}</span> dage`,
+      },
+      en: {
+        today: "You get paid <span class='font-bold'>today!</span>",
+        tomorrow: "You get paid <span class='font-bold'>tomorrow</span>",
+        dayAfterTomorrow:
+          "You get paid <span class='font-bold'>the day after tomorrow</span>",
+        inDays: (days) =>
+          `You get paid in <span class="font-bold">${days}</span> days`,
+      },
+    };
+
+    const t = translations[locale] || translations.da; // Default to Danish if locale is not found
     const diff = getDaysToSalary();
 
     if (diff < 0) {
       return "";
     }
-
-    if (diff == 0) {
-      return "Du får løn i <span class='font-bold'>dag!</span>";
+    if (diff === 0) {
+      return t.today;
     }
-
-    if (diff == 1) {
-      return "Du får løn i <span class='font-bold'>morgen</span>";
+    if (diff === 1) {
+      return t.tomorrow;
     }
-
-    if (diff == 2) {
-      return "Du får løn i <span class='font-bold'>overmorgen</span>";
+    if (diff === 2) {
+      return t.dayAfterTomorrow;
     }
-
-    return `Du får løn om <span class="font-bold">${diff}</span> dage`;
+    return t.inDays(diff);
   }
 </script>

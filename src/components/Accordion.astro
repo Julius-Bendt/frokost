@@ -1,0 +1,61 @@
+<div class="w-full mx-auto">
+  <slot />
+</div>
+
+<script>
+  class AccordionItem extends HTMLElement {
+    private button: HTMLButtonElement | null = null;
+    private content: HTMLElement | null = null;
+    private icon: SVGElement | null = null;
+
+    constructor() {
+      super();
+      this.toggleAccordion = this.toggleAccordion.bind(this);
+    }
+
+    connectedCallback() {
+      this.button = this.querySelector("button");
+      this.content = this.querySelector('[role="region"]');
+      this.icon = this.button?.querySelector("svg") ?? null;
+
+      if (this.button) {
+        this.button.addEventListener("click", this.toggleAccordion);
+      }
+    }
+
+    disconnectedCallback() {
+      if (this.button) {
+        this.button.removeEventListener("click", this.toggleAccordion);
+      }
+    }
+
+    toggleAccordion() {
+      if (!this.button || !this.content || !this.icon) return;
+
+      const isExpanded = this.button.getAttribute("aria-expanded") === "true";
+      this.button.setAttribute("aria-expanded", (!isExpanded).toString());
+
+      this.content.classList.toggle("accordion-expanded");
+      this.icon.classList.toggle("rotate-180");
+
+      if (this.content.style.maxHeight) {
+        this.content.style.maxHeight = "";
+      } else {
+        this.content.style.maxHeight = `${this.content.scrollHeight}px`;
+      }
+    }
+  }
+
+  customElements.define("accordion-item", AccordionItem);
+</script>
+
+<style is:global>
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+  .accordion-expanded {
+    max-height: 1000px; /* Adjust this value based on your maximum expected content height */
+  }
+</style>

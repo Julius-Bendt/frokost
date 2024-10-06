@@ -1,38 +1,57 @@
+---
+export interface Props {
+  lang: "en" | "da";
+}
+const { lang } = Astro.props;
+---
+
 <div
   class="md:w-3/4 mx-auto transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105 text-center"
 >
   <div>
-    <h1 class="text-2xl md:text-5xl">Der er frokost om</h1>
+    <h1 class="text-2xl md:text-5xl">
+      {lang === "en" ? "Lunch is in" : "Der er frokost om"}
+    </h1>
     <span id="text" class="font-bold text-3xl md:text-7xl">
       <!-- x time og xx minutter -->
     </span>
   </div>
 </div>
 
+<script is:inline define:vars={{ lang }}>
+  window.lang = lang;
+</script>
+
 <script>
   import { getTimeToFrokost } from "../scripts/SetTime.js";
   import { textToSpeech } from "../scripts/TextToSpeech.js";
 
-  const amountElement = document.getElementById("text");
+  let amountElement;
   let lastSpoken = "";
 
-  addEventListener("load", (event) => {
-    amountElement.innerHTML = getTimeToFrokost().formatted;
-  });
+  function updateFrokostTime() {
+    if (!amountElement) {
+      amountElement = document.getElementById("text");
+      if (!amountElement) return;
+    }
 
-  const interval = setInterval(function () {
-    const frokostTime = getTimeToFrokost();
+    const frokostTime = getTimeToFrokost(window.lang);
     amountElement.innerHTML = frokostTime.formatted;
 
     const speakAtMinutes = [15, 10, 5, 4, 3, 2, 1];
     if (
-      frokostTime.formatted != lastSpoken &&
+      frokostTime.formatted !== lastSpoken &&
       speakAtMinutes.includes(frokostTime.mm) &&
-      frokostTime.hh == 11
+      frokostTime.hh === 0
     ) {
       textToSpeech(`Lunch is in ${frokostTime.mm} minutes`);
-
       lastSpoken = frokostTime.formatted;
     }
-  }, 5000);
+  }
+
+  // Initialize when the DOM is ready
+  document.addEventListener("DOMContentLoaded", () => {
+    updateFrokostTime();
+    setInterval(updateFrokostTime, 5000);
+  });
 </script>
